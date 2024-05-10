@@ -1,2 +1,2 @@
-# FTL-Highlight
-FTL(Freemarker) Highlight
+# FTL-Highlighter
+FTL(Freemarker) Highlighter
