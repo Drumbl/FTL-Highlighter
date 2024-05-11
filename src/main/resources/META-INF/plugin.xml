@@ -1,0 +1,42 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.drumbl.HighlightFTL</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>FTL Highlighter</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="drumbl@mail.com" url="https://github.com/Drumbl">Drumbl</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    Highlighting ftl(Freemarker) file code
+  ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType
+                name="FTL File"
+                implementationClass="com.drumbl.highlightftl.lang.FtlFileType"
+                fieldName="INSTANCE"
+                language="Ftl"
+                extensions="ftl"/>
+        <lang.parserDefinition
+                language="Ftl"
+                implementationClass="com.drumbl.highlightftl.lang.FtlParserDefinition"/>
+        <lang.syntaxHighlighterFactory
+                language="Ftl"
+                implementationClass="com.drumbl.highlightftl.lang.highlight.FtlSyntaxHighlighterFactory"/>
+        <colorSettingsPage
+                implementation="com.drumbl.highlightftl.lang.highlight.FtlColorSettingsPage"/>
+    </extensions>
+</idea-plugin>

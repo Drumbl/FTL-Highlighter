@@ -1,0 +1,78 @@
+{
+  parserClass="com.drumbl.highlightftl.lang.parser.FtlParser"
+  parserUtilClass="com.drumbl.highlightftl.lang.parser.FtlParserUtil"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Ftl"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.drumbl.highlightftl.psi"
+  psiImplPackage="com.drumbl.highlightftl.psi.impl"
+
+  elementTypeHolderClass="com.drumbl.highlightftl.psi.FtlTypes"
+  elementTypeClass="com.drumbl.highlightftl.psi.FtlElementType"
+  tokenTypeClass="com.drumbl.highlightftl.psi.FtlTokenType"
+
+    tokens = [
+        <any_char> = "regexp:."
+        <identifier> = 'regexp:[a-zA-Z_а-яА-я][a-zA-Z0-9_]*'
+        <string_literal> = "regexp:'"' (~["])* '"'"
+        <number_literal> = "regexp:['-']? [0-9]+ ('.' [0-9]+)?"
+        <boolean_literal> = "regexp:'true' | 'false'"
+        <text_block> = "regexp:'\{' (~['}'])* '}'"
+        <directive_start> = '<#'
+        <directive_end> = '>'
+        <directive_close> = '</#'
+        <comment_start> = '<#--'
+        <comment_end> = '-->'
+        <interpolation_start> = '${'
+        <interpolation_end> = '}'
+        <list_directive> = 'list'
+        <if_directive> = 'if'
+        <else_directive> = 'else'
+        <elseif_directive> = 'elseif'
+        <macro_directive> = 'macro'
+        <assign_directive> = 'assign'
+        <global_directive> = 'global'
+        <include_directive> = 'include'
+        <import_directive> = 'import'
+        <function_directive> = 'function'
+        <operator> = "regexp:'+' | '-' | '*' | '/' | '=' | '!=' | '<' | '>' | '<=' | '>=' | '&&' | '\||'"
+        <whitespace> = "regexp:' ' | '\t' | '\n' | '\r'"
+    ]
+
+}
+
+<ftl_file> ::= <statement>*
+
+<statement> ::= <any_char> | <directive> | <assignment> | <macro_definition> | <comment> | CRLF
+
+<directive> ::= <directive_start> <directive_name> <directive_body> <directive_end>
+              | <directive_start> <directive_name> <directive_end>
+              | <directive_close> <directive_name> <directive_end>
+
+<directive_name> ::= <identifier>
+
+<directive_body> ::= (<attribute>)*
+
+<attribute> ::= <identifier> '=' <value>
+
+<value> ::= <string_literal> | <number_literal> | <boolean_literal> | <text_block> | <interpolation>
+
+<assignment> ::= <identifier> '=' <expression>
+
+<expression> ::= <value>
+               | <identifier> ('.' <identifier>)*
+               | <expression> <operator> <expression>
+               | '(' <expression> ')'
+
+<macro_definition> ::= <macro_directive> <identifier> '(' <parameter_list> ')' <directive_body> <directive_end>
+
+<parameter_list> ::= <identifier> (',' <identifier>)*
+
+<comment> ::= <comment_start> <comment_content>* <comment_end>
+<comment_start> ::= "<#--"
+<comment_content> ::= 'regexp:[^\-]+ | "-" [^\-]'
+<comment_end> ::= "-->"
+
+<interpolation> ::= <interpolation_start> <expression> <interpolation_end>

@@ -1,0 +1,19 @@
+// This is a generated file. Not intended for manual editing.
+package com.drumbl.highlightftl.psi;
+
+import java.util.List;
+import org.jetbrains.annotations.*;
+import com.intellij.psi.PsiElement;
+
+public interface FtlComment extends PsiElement {
+
+  @NotNull
+  List<FtlCommentContent> getCommentContentList();
+
+  @NotNull
+  FtlCommentEnd getCommentEnd();
+
+  @NotNull
+  FtlCommentStart getCommentStart();
+
+}
